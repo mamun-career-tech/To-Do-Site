@@ -27,7 +27,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Step 4: Run tests with pytest
+      # Step 4: Start Flask app in the background (testing mode)
+      - name: Start Flask app
+        run: |
+          export FLASK_APP=test_app.py
+          export FLASK_ENV=testing
+          flask run --host=127.0.0.1 --port=5000 &
+          sleep 5  # wait a few seconds to make sure the server is up
+
+      # Step 5: Run tests with pytest
       - name: Run tests
         run: |
           pytest
