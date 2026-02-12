@@ -36,6 +36,5 @@ jobs:
           sleep 5  # wait a few seconds to make sure the server is up
 
       # Step 5: Run tests with pytest
-      - name: Run tests
-        run: |
-          pytest
+      - name: Install pytest
+        run: pip install pytest
