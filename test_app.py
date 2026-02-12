@@ -6,9 +6,9 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///TODO.db"
-db = SQLAlchemy(app)
+test_app = Flask(__name__)
+test_app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///TODO.db"
+db = SQLAlchemy(test_app)
 
 class TodoData(db.Model):
     Sl = db.Column(db.Integer, primary_key = True)
@@ -16,11 +16,11 @@ class TodoData(db.Model):
     TodoDescription = db.Column(db.String(250), nullable = False)
 
     def __repr__(self) -> str:
-        return f"{self.Sl} -> {self.todoName} -> {self.todoDescription}"
+        return f"{self.Sl} -> {self.TodoName} -> {self.TodoDescription}"
 
 
-@app.route('/', methods=['GET','POST'])
-def main_P():
+@test_app.route('/', methods=['GET','POST'])
+def test_main():
     if request.method == 'POST':
         TodoName = request.form['TodoName']
         TodoDescription = request.form['TodoDescription']
@@ -33,15 +33,15 @@ def main_P():
     return render_template('index.html', allTodoData = allTodoData)
     #return "Hello World"
 
-@app.route('/delete/<int:Sl>')
-def delete(Sl):
+@test_app.route('/delete/<int:Sl>')
+def test_delete(Sl):
     TodoDelete = TodoData.query.filter_by(Sl = Sl).first()
     db.session.delete(TodoDelete)
     db.session.commit()
     return redirect('/')
 
-@app.route('/update/<int:Sl>', methods=['GET','POST'])
-def update(Sl):
+@test_app.route('/update/<int:Sl>', methods=['GET','POST'])
+def test_update(Sl):
     if request.method == 'POST':
         TodoName = request.form['TodoName']
         TodoDescription = request.form['TodoDescription']
@@ -57,6 +57,6 @@ def update(Sl):
 
 
 if __name__ == "__main__":
-    with app.app_context():
+    with test_app.app_context():
         db.create_all()
-    app.run(debug=True, port=8000)
+    test_app.run(debug=True, port=8000)
