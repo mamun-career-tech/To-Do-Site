@@ -13,4 +13,5 @@ Flask-Migrate>=4.0.4
 # Environment variables
 python-dotenv>=1.0.0
 
-
+# Production server
+gunicorn>=20.1.0
